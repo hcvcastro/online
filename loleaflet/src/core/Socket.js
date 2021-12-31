@@ -1624,6 +1624,9 @@ app.definitions.Socket = L.Class.extend({
 					command.selectedParts.push(parseInt(item));
 				});
 			}
+			else if (tokens[i].substring(0, 6) === 'props=') {
+				command.props = JSON.parse(tokens[i].substring('props='.length));
+			}
 			else if (tokens[i].startsWith('hash=')) {
 				command.hash = tokens[i].substring('hash='.length);
 			}
