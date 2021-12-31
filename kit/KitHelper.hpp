@@ -55,6 +55,10 @@ namespace LOKitHelper
             << " parts=" << parts
             << " current=" << loKitDocument->pClass->getPart(loKitDocument);
 
+        char* docProps = loKitDocument->pClass->getCommandValues(loKitDocument, ".uno:DocProps");
+        oss << " props=" << docProps;
+        std::free(docProps);
+
         long width, height;
         loKitDocument->pClass->getDocumentSize(loKitDocument, &width, &height);
         oss << " width=" << width
