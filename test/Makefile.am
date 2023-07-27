@@ -347,12 +347,20 @@ LOG_DRIVER = ${top_builddir}/test/run_unit_standalone.sh
 
 EXTRA_DIST = data/delta-text.png data/delta-text2.png data/delta-graphic.png data/delta-graphic2.png data/hello.odt data/hello.txt $(test_SOURCES) $(unittest_SOURCES) run_unit.sh run_unit_standalone.sh
 
+if ENABLE_CCLS
+CCLS_CONFIG=$(abs_srcdir)/.ccls
+$(CCLS_CONFIG): $(DIST_COMMON)
+	@echo "$(CXX)" > $@
+	@echo "%cpp $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)" >> $@
+endif
+
 check_valgrind: all
 	@fc-cache "@LO_PATH@"/share/fonts/truetype
 	./run_unit.sh --log-file test.log --trs-file test.trs --valgrind
 
 # run unittest during the normal build
-all-local: unittest
+all-local: $(CCLS_CONFIG) unittest
 	@echo
 	@echo "Running build-time unit tests.  For more thorough testing, please run 'make check'."
 	@echo "Test output is in `pwd`/test.log and is displayed on failure."

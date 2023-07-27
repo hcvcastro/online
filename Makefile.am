@@ -637,7 +637,20 @@ else
 ALL_LOCAL_DEPS=coolwsd
 endif
 
-all-local: $(ALL_LOCAL_DEPS) @JAILS_PATH@ $(SYSTEM_STAMP)
+if ENABLE_CCLS
+CCLS_CONFIG=$(top_srcdir)/.ccls
+$(CCLS_CONFIG): $(DIST_COMMON)
+	@echo "$(CXX)" > $@
+	@echo "%cpp $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)" >> $@
+endif
+
+# After building coolforkit, set its capabilities as required. Do it
+# already after a plain 'make' to allow for testing without
+# installing. When building for packaging, no need for this, as the
+# capabilities won't survive packaging anyway. Instead, handle it when
+# installing the RPM or Debian package.
+all-local: $(CCLS_CONFIG) $(ALL_LOCAL_DEPS) @JAILS_PATH@ $(SYSTEM_STAMP)
 	@$(abs_top_srcdir)/scripts/refresh-git-hooks
 
 # just run the build without any tests

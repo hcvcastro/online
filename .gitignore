@@ -12,6 +12,7 @@
 .vscode
 **/.clangd
 **/.cache
+**/.ccls
 Makefile
 Makefile.in
 coolwsd.spec

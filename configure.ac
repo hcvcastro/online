@@ -82,6 +82,10 @@ if test "$host_os" = "emscripten"; then
     hardcode_libdir_flag_spec_CXX=
 fi
 
+# C/C++/ObjC language server
+AC_CHECK_PROG(CCLS,ccls,ccls,,,false)
+AM_CONDITIONAL([ENABLE_CCLS], [test "$CCLS" == "ccls"])
+
 AC_LANG_PUSH([C++])
 
 # check for python modules
