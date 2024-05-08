@@ -521,6 +521,7 @@ var unoCommandsArray = {
 	'ZTestDialog':{spreadsheet:{menu:_('~Z-test...'),},},
 	'ZoomMinus':{global:{menu:_('Zoom Out'),},},
 	'ZoomPlus':{global:{menu:_('Zoom In'),},},
+	'OptionsTreeDialog':{global:{menu:_('Options...'),},},
 };
 
 window._UNO = function(string, component, isContext) {

@@ -372,7 +372,8 @@ L.Control.Menubar = L.Control.extend({
 				{uno: '.uno:LineNumberingDialog'},
 				{uno: '.uno:FootnoteDialog'},
 				{type: 'separator'},
-				{name: _UNO('.uno:RunMacro'), id: 'runmacro', uno: '.uno:RunMacro'}
+				{name: _UNO('.uno:RunMacro'), id: 'runmacro', uno: '.uno:RunMacro'},
+				{uno: '.uno:OptionsTreeDialog'}
 			]},
 			{name: _UNO('.uno:HelpMenu', 'text'), id: 'help', type: 'menu', menu: [
 				{name: _('Forum'), id: 'forum', type: 'action'},
@@ -533,8 +534,8 @@ L.Control.Menubar = L.Control.extend({
 				{name: _UNO('.uno:LanguageMenu'), type: 'menu', menu: [
 					{name: _('None (Do not check spelling)'), id: 'nonelanguage', uno: '.uno:LanguageStatus?Language:string=Default_LANGUAGE_NONE'}]},
 				{type: 'separator'},
-				{name: _UNO('.uno:RunMacro'), id: 'runmacro', uno: '.uno:RunMacro'}
-
+				{name: _UNO('.uno:RunMacro'), id: 'runmacro', uno: '.uno:RunMacro'},
+				{uno: '.uno:OptionsTreeDialog'}
 			]},
 			{name: _UNO('.uno:HelpMenu', 'presentation'), id: 'help', type: 'menu', menu: [
 				{name: _('Online Help'), id: 'online-help', type: 'action', iosapp: false},
@@ -665,7 +666,8 @@ L.Control.Menubar = L.Control.extend({
 				{uno: '.uno:SpellDialog'},
 				{uno: '.uno:SpellOnline'},
 				{name: _UNO('.uno:LanguageMenu'), type: 'menu', menu: [
-					{name: _('None (Do not check spelling)'), id: 'nonelanguage', uno: '.uno:LanguageStatus?Language:string=Default_LANGUAGE_NONE'}]}
+					{name: _('None (Do not check spelling)'), id: 'nonelanguage', uno: '.uno:LanguageStatus?Language:string=Default_LANGUAGE_NONE'}]},
+				{uno: '.uno:OptionsTreeDialog'}
 			]},
 			{name: _UNO('.uno:HelpMenu', 'presentation'), id: 'help', type: 'menu', menu: [
 				{name: _('Online Help'), id: 'online-help', type: 'action', iosapp: false},
@@ -946,7 +948,8 @@ L.Control.Menubar = L.Control.extend({
 				{uno: '.uno:GoalSeekDialog'},
 				{uno: '.uno:Protect'},
 				{type: 'separator'},
-				{name: _UNO('.uno:RunMacro'), id: 'runmacro', uno: '.uno:RunMacro'}
+				{name: _UNO('.uno:RunMacro'), id: 'runmacro', uno: '.uno:RunMacro'},
+				{uno: '.uno:OptionsTreeDialog'}
 			]},
 			{name: _UNO('.uno:HelpMenu', 'spreadsheet'), id: 'help', type: 'menu', menu: [
 				{name: _('Online Help'), id: 'online-help', type: 'action', iosapp: false},
