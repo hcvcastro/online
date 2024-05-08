@@ -1543,7 +1543,9 @@ L.CanvasTileLayer = L.Layer.extend({
 			app.sectionContainer.getSectionWithName(L.CSections.CommentList.name).onACKComment(obj);
 		}
 		else if (textMsg.startsWith('applicationbackgroundcolor:')) {
+			app.sectionContainer.setBackgroundColorMode(false);
 			app.sectionContainer.setClearColor('#' + textMsg.substring('applicationbackgroundcolor:'.length + 1).trim());
+			app.sectionContainer.setBackgroundColorMode(true);
 			app.sectionContainer.requestReDraw();
 		}
 		else if (textMsg.startsWith('documentbackgroundcolor:')) {
