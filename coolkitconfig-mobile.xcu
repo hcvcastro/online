@@ -685,4 +685,132 @@
     </node>
 </item>
 
+<item oor:path="/org.openoffice.Office.OptionsDialog/OptionsDialogGroups">
+  <node oor:name="ProductName" oor:op="fuse">
+    <node oor:name="Pages">
+      <node oor:name="UserData" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+      <node oor:name="General" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+      <node oor:name="View" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+      <node oor:name="Print" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+      <node oor:name="Paths" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+      <node oor:name="Fonts" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+      <node oor:name="Security" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+      <node oor:name="Personalization" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+      <node oor:name="Accessibility" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+      <node oor:name="Java" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+      <node oor:name="BasicIDEOptions" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+      <node oor:name="OnlineUpdate" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+      <node oor:name="OpenCL" oor:op="fuse">
+        <prop oor:name="Hide">
+          <value>true</value>
+        </prop>
+      </node>
+    </node>
+  </node>
+
+  <node oor:name="LanguageSettings" oor:op="fuse">
+    <prop oor:name="Hide">
+      <value>true</value>
+    </prop>
+  </node>
+  <node oor:name="Internet" oor:op="fuse">
+    <prop oor:name="Hide">
+      <value>true</value>
+    </prop>
+  </node>
+  <node oor:name="LoadSave" oor:op="fuse">
+    <prop oor:name="Hide">
+      <value>true</value>
+    </prop>
+  </node>
+  <node oor:name="Writer" oor:op="fuse">
+    <prop oor:name="Hide">
+      <value>true</value>
+    </prop>
+  </node>
+  <node oor:name="WriterWeb" oor:op="fuse">
+    <prop oor:name="Hide">
+      <value>true</value>
+    </prop>
+  </node>
+  <node oor:name="Math" oor:op="fuse">
+    <prop oor:name="Hide">
+      <value>true</value>
+    </prop>
+  </node>
+  <node oor:name="Calc" oor:op="fuse">
+    <prop oor:name="Hide">
+      <value>true</value>
+    </prop>
+  </node>
+  <node oor:name="Impress" oor:op="fuse">
+    <prop oor:name="Hide">
+      <value>true</value>
+    </prop>
+  </node>
+  <node oor:name="Draw" oor:op="fuse">
+    <prop oor:name="Hide">
+      <value>true</value>
+    </prop>
+  </node>
+  <node oor:name="Charts" oor:op="fuse">
+    <prop oor:name="Hide">
+      <value>true</value>
+    </prop>
+  </node>
+  <node oor:name="Base" oor:op="fuse">
+    <prop oor:name="Hide">
+      <value>true</value>
+    </prop>
+  </node>
+</item>
+
 </oor:items>
