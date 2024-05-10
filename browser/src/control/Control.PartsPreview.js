@@ -842,6 +842,25 @@ L.Control.PartsPreview = L.Control.extend({
 		}
 
 	},
+
+	_inspectPreviews: function () {
+		var windowPreview = window.open('');
+		if (!windowPreview)
+			return;
+
+		windowPreview.document.title = 'Inspect Previews';
+		var container = L.DomUtil.create('div', '', windowPreview.document.body);
+		if (!container)
+			return;
+
+		for (var part = 0; part < this._previewTiles.length; part++) {
+			var img = L.DomUtil.create('img', '', container);
+			if (img) {
+				img.src = this._previewTiles[part].src;
+				img.style.display = 'block';
+			}
+		}
+	},
 });
 
 L.control.partsPreview = function (container, preview, options) {
