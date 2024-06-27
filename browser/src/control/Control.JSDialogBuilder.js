@@ -2320,21 +2320,13 @@ L.Control.JSDialogBuilder = L.Control.extend({
 				var label = L.DomUtil.create('label', 'ui-content unolabel', button);
 				label.htmlFor = buttonId;
 				label.textContent = builder._cleanText(data.text);
-				button.setAttribute('alt', label.textContent);
-				if (buttonImage !== false) {
-					buttonImage.alt = label.textContent;
-				}
 				builder._stressAccessKey(label, button.accessKey);
 				controls['label'] = label;
 				$(div).addClass('has-label');
 			} else if (builder.options.useInLineLabelsForUnoButtons === true) {
 				$(div).addClass('no-label');
 			} else {
-				div.title = data.text;
-				button.setAttribute('alt', data.text);
-				if (buttonImage !== false) {
-					buttonImage.alt = data.text;
-				}
+				div.dataset.cooltip = data.text;
 				builder.map.uiManager.enableTooltip(div);
 				$(div).addClass('no-label');
 			}
@@ -2449,8 +2441,18 @@ L.Control.JSDialogBuilder = L.Control.extend({
 			e.stopPropagation();
 		};
 
+		var mouseEnterFunction = function () {
+			builder.map.tooltip.beginShow(div);
+		};
+
+		var mouseLeaveFunction = function () {
+			builder.map.tooltip.beginHide(div);
+		};
+
 		$(controls.button).on('click', clickFunction);
 		$(controls.label).on('click', clickFunction);
+		$(controls.button).on('mouseenter', mouseEnterFunction);
+		$(controls.button).on('mouseleave', mouseLeaveFunction);
 
 		div.addEventListener('keydown', function(e) {
 			switch (e.key) {
