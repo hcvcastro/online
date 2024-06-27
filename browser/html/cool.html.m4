@@ -297,6 +297,7 @@ m4_ifelse(MOBILEAPP,[true],
         </div>
       </div>
     </div>
+    <div id="cooltip" class="cooltip-text"></div>
 
     <script>
 m4_ifelse(MOBILEAPP,[true],
