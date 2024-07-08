@@ -743,7 +743,9 @@ function _treelistboxControl(parentContainer, data, builder) {
 		}
 		table.setAttribute('role', isRealTreeView ? 'tree' : 'listbox');
 
-		var ul = L.DomUtil.create('ul', builder.options.cssClass, tbody);
+		var tr = L.DomUtil.create('tr', '', tbody);
+		var td = L.DomUtil.create('td', '', tr);
+		var ul = L.DomUtil.create('ul', builder.options.cssClass, td);
 
 		for (i in data.entries) {
 			_treelistboxEntry(ul, data, data.entries[i], builder, isRealTreeView);
