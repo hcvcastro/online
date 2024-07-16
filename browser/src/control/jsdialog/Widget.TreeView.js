@@ -839,6 +839,7 @@ class TreeViewControl {
 
 		this._tableContainer._tbody = L.DomUtil.create('tbody', builder.options.cssClass +
 							       ' ui-treeview-body', this._tableContainer);
+		this._tableContainer.setAttribute('role', 'grid');
 	}
 
 	fillHeaders(headers, builder) {
@@ -917,6 +918,9 @@ class TreeViewControl {
 			tr.setAttribute('aria-expanded', true);
 		}
 
+		if (level > 0 && this._tableContainer.getAttribute('role') !== 'treegrid')
+			this._tableContainer.setAttribute('role', 'treegrid');
+
 		this.fillTableCells(entry, builder, tr);
 
 		return parent;
@@ -928,6 +932,7 @@ class TreeViewControl {
 			let span = L.DomUtil.create('span', builder.options.cssClass +
 						    ' ui-treeview-cell-text', td);
 			span.innerText = entry.columns[index].text;
+			td.setAttribute('role', 'gridcell');
 		}
 	}
 }
