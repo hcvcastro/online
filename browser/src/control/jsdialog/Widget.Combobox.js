@@ -183,6 +183,12 @@ JSDialog.combobox = function (parentContainer, data, builder) {
 	var container = L.DomUtil.create('div', 'ui-combobox ' + builder.options.cssClass, parentContainer);
 	container.id = data.id;
 
+	var labelText = L.Map.StateChangeHandler.prototype.Labels[data.command];
+	if (labelText) {
+		var label = L.DomUtil.create('label', '', container);
+		label.textContent = labelText;
+	}
+
 	var content = L.DomUtil.create('input', 'ui-combobox-content ' + builder.options.cssClass, container);
 	content.value = data.text;
 	content.role = 'combobox';

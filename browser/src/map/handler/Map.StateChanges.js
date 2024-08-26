@@ -3,13 +3,18 @@
  * L.Map.StateChanges stores the state changes commands coming from core
  * LOK_CALLBACK_STATE_CHANGED callback
  */
-/* global $ app */
+/* global $ app _ */
 /*eslint no-extend-native:0*/
 L.Map.mergeOptions({
 	stateChangeHandler: true
 });
 
 L.Map.StateChangeHandler = L.Handler.extend({
+	Labels : {
+		'.uno:CharFontName' : _('Font:'),
+		'.uno:FontHeight' : _('Size:'),
+		'.uno:StyleApply' : _('Style:')
+	},
 
 	initialize: function (map) {
 		this._map = map;
