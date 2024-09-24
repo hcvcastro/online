@@ -736,7 +736,7 @@ class SlideShowPresenter {
 	}
 
 	/// called as a response on getpresentationinfo
-	onSlideShowInfo(data: PresentationInfo) {
+	onSlideShowInfo(data: PresentationInfo, options: any) {
 		console.debug('SlideShow: received information about presentation');
 		this._presentationInfo = data;
 
@@ -810,6 +810,8 @@ class SlideShowPresenter {
 		});
 
 		this.startLoader();
+
+		if (options && options.noStart) return;
 
 		// allow user interaction
 		this._slideShowNavigator.enable();
