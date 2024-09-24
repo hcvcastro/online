@@ -596,6 +596,12 @@ class LayerDrawing {
 			this.prefetchedSlideHash = null;
 			return;
 		}
+
+		if (!this.requestedSlideHash) {
+			app.console.warn('onSlideRenderingComplete: requestedSlideHash is null');
+			return;
+		}
+
 		const reqSlideInfo = this.getSlideInfo(this.requestedSlideHash);
 
 		this.cacheAndNotify();
