@@ -123,9 +123,10 @@ class SlideShowPresenter {
 	private _startSlide: number;
 	private _presentationInfoChanged: boolean = false;
 
-	constructor(map: any) {
+	constructor(map: any, options: any) {
 		this._map = map;
 		this._init();
+		if (options && options.noHooks) return;
 		this.addHooks();
 	}
 
