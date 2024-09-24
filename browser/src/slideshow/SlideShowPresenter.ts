@@ -111,6 +111,7 @@ class SlideShowPresenter {
 	_slideShowWindowProxy: ReturnType<typeof window.open> = null;
 	_windowCloseInterval: ReturnType<typeof setInterval> = null;
 	_currentSlide: number = 0;
+	_startSlide: number;
 	_slideRenderer: SlideRenderer = null;
 	_animationsHandler: SlideAnimations = null;
 	_canvasLoader: CanvasLoader | null = null;
@@ -120,7 +121,6 @@ class SlideShowPresenter {
 	private _slideShowHandler: SlideShowHandler;
 	private _slideShowNavigator: SlideShowNavigator;
 	private _metaPresentation: MetaPresentation;
-	private _startSlide: number;
 	private _presentationInfoChanged: boolean = false;
 
 	constructor(map: any, options: any) {
