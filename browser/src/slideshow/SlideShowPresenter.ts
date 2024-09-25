@@ -345,9 +345,9 @@ class SlideShowPresenter {
 		);
 
 		try {
-			this._slideRenderer = new SlideRendererGl(canvas);
+			this._slideRenderer = new SlideRendererGl(this, canvas);
 		} catch (error) {
-			this._slideRenderer = new SlideRenderer2d(canvas);
+			this._slideRenderer = new SlideRenderer2d(this, canvas);
 		}
 
 		if (this._slideRenderer._context.is2dGl()) this._slideShowHandler.disable();
