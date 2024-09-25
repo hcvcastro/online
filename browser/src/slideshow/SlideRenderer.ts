@@ -51,7 +51,7 @@ abstract class SlideRenderer {
 	protected _renderedSlideIndex: number = undefined;
 	protected _requestAnimationFrameId: number = null;
 	protected _isAnyVideoPlaying: boolean = false;
-	protected _presenter: SlideShowPresenter = null;
+	public _presenter: SlideShowPresenter = null;
 	private _activeLayers: Set<string> = new Set();
 
 	constructor(presenter: SlideShowPresenter, canvas: HTMLCanvasElement) {

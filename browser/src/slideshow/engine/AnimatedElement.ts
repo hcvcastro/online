@@ -547,7 +547,7 @@ class AnimatedElement {
 	// TODO unused, to be removed (?)
 	private getAnimatedLayerInfo(): AnimatedShapeInfo {
 		ANIMDBG.print('AnimatedElement.getAnimatedLayerInfo');
-		const presenter: SlideShowPresenter = app.map.slideShowPresenter;
+		const presenter: SlideShowPresenter = this.slideRenderer._presenter;
 		if (presenter) {
 			const compositor = presenter._slideCompositor;
 			if (compositor) {
