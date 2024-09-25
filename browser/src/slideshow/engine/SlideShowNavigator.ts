@@ -384,6 +384,10 @@ class SlideShowNavigator {
 		this.presenter = presenter;
 	}
 
+	getPresenter() {
+		return this.presenter;
+	}
+
 	private get slideCompositor(): SlideCompositor {
 		return this.presenter._slideCompositor;
 	}

@@ -135,6 +135,10 @@ class SlideShowHandler {
 		this.presenter = presenter;
 	}
 
+	getPresenter() {
+		return this.presenter;
+	}
+
 	setNavigator(slideShowNavigator: SlideShowNavigator) {
 		this.slideShowNavigator = slideShowNavigator;
 	}
