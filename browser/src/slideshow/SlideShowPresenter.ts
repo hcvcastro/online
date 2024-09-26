@@ -152,13 +152,14 @@ class SlideShowPresenter {
 	}
 
 	private _init() {
-		this._slideShowHandler = new SlideShowHandler();
-		this._slideShowHandler.setPresenter(this);
-		this._slideShowNavigator = new SlideShowNavigator(this._slideShowHandler);
+		this._slideShowHandler = new SlideShowHandler(this);
+		this._slideShowNavigator = new SlideShowNavigator(
+			this,
+			this._slideShowHandler,
+		);
 		// do not allow user interaction until we get presentation info
 		this._slideShowNavigator.disable();
 		this._slideShowHandler.setNavigator(this._slideShowNavigator);
-		this._slideShowNavigator.setPresenter(this);
 	}
 
 	private onUpdateParts() {

@@ -83,7 +83,8 @@ class SlideShowHandler {
 	public isStarting: boolean;
 	private bIsFirstAutoEffectRunning: boolean = false;
 
-	constructor() {
+	constructor(presenter: SlideShowPresenter) {
+		this.presenter = presenter;
 		this.aTimer = new ElapsedTime();
 		this.aFrameSynchronization = new FrameSynchronization(
 			SlideShowHandler.PREFERRED_FRAME_RATE,
@@ -129,10 +130,6 @@ class SlideShowHandler {
 
 	setMetaPresentation(metaPres: MetaPresentation) {
 		this.theMetaPres = metaPres;
-	}
-
-	setPresenter(presenter: SlideShowPresenter) {
-		this.presenter = presenter;
 	}
 
 	getPresenter() {

@@ -23,7 +23,11 @@ class SlideShowNavigator {
 	private isEnabled: boolean;
 	private isRewindingToPrevSlide: boolean;
 
-	constructor(slideShowHandler: SlideShowHandler) {
+	constructor(
+		presenter: SlideShowPresenter,
+		slideShowHandler: SlideShowHandler,
+	) {
+		this.presenter = presenter;
 		this.slideShowHandler = slideShowHandler;
 		this.currentSlide = undefined;
 		this.prevSlide = undefined;
@@ -378,10 +382,6 @@ class SlideShowNavigator {
 		if (!this.isEnabled && aEvent.code !== 'Escape') return;
 		const handler = this.keyHandlerMap[aEvent.code];
 		if (handler) handler();
-	}
-
-	setPresenter(presenter: SlideShowPresenter) {
-		this.presenter = presenter;
 	}
 
 	getPresenter() {
