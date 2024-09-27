@@ -484,10 +484,10 @@ class LayerDrawing {
 		}
 
 		var hasField = false;
-		for (const layer of layers) {
-			this.drawMasterPageLayer(layer, slideHash);
-			if (layer.isField) {
-				this.cachedMasterPages.delete(slideInfo.masterPage);
+		for (const layer in layers) {
+			this.drawMasterPageLayer(layers[layer], slideHash);
+			if (layers[layer].isField) {
+				delete layers[layer];
 				hasField = true;
 			}
 		}
