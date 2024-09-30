@@ -73,8 +73,17 @@ class PresenterConsole {
 		);
 
 		this._proxyPresenter.addEventListener('click', L.bind(this._onClick, this));
+		this._proxyPresenter.addEventListener(
+			'keydown',
+			L.bind(this._onKeyDown, this),
+		);
 		this._slideShowPresenter._startSlide =
 			e && e.startSlideNumber ? e.startSlideNumber : 0;
+	}
+
+	_onKeyDown(e) {
+		this._slideShowPresenter.getNavigator().onKeyDown(e);
+		this._map.slideShowPresenter.getNavigator().onKeyDown(e);
 	}
 
 	_onClick(e) {
@@ -86,6 +95,10 @@ class PresenterConsole {
 		this._proxyPresenter.removeEventListener(
 			'click',
 			L.bind(this._onClick, this),
+		);
+		this._proxyPresenter.removeEventListener(
+			'keydown',
+			L.bind(this._onKeyDown, this),
 		);
 		this._slideShowPresenter._stopFullScreen();
 		delete this._proxyPresenter;
