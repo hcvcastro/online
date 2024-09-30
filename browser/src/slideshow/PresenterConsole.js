@@ -53,10 +53,12 @@ class PresenterConsole {
 			return;
 		}
 
+		this._map.off('newpresentinconsole', this._onPresentInConsole, this);
 		this._proxyPresenter.addEventListener(
 			'beforeunload',
 			L.bind(this._onClose, this),
 		);
+
 		this._proxyPresenter.document.documentElement.innerHTML =
 			this._slideShowPresenter._generateSlideWindowHtml(_('Presenter Console'));
 
@@ -102,6 +104,7 @@ class PresenterConsole {
 		);
 		this._slideShowPresenter._stopFullScreen();
 		delete this._proxyPresenter;
+		this._map.on('newpresentinconsole', this._onPresentInConsole, this);
 	}
 }
 
