@@ -602,6 +602,11 @@ class LayerDrawing {
 			return;
 		}
 
+		const layers = this.cachedDrawPages.get(this.requestedSlideHash);
+		if (!layers || layers.length === 0) {
+			return;
+		}
+
 		const reqSlideInfo = this.getSlideInfo(this.requestedSlideHash);
 
 		this.cacheAndNotify();
