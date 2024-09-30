@@ -69,13 +69,24 @@ class PresenterConsole {
 			this._proxyPresenter.document.querySelector('#root-in-window'),
 			this._proxyPresenter.window.innerWidth,
 			this._proxyPresenter.window.innherHeight,
+			{ noClick: true },
 		);
 
+		this._proxyPresenter.addEventListener('click', L.bind(this._onClick, this));
 		this._slideShowPresenter._startSlide =
 			e && e.startSlideNumber ? e.startSlideNumber : 0;
 	}
 
+	_onClick(e) {
+		this._slideShowPresenter.getNavigator().onClick(e);
+		this._map.slideShowPresenter.getNavigator().onClick(e);
+	}
+
 	_onClose() {
+		this._proxyPresenter.removeEventListener(
+			'click',
+			L.bind(this._onClick, this),
+		);
 		this._slideShowPresenter._stopFullScreen();
 		delete this._proxyPresenter;
 	}
