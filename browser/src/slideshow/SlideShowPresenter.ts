@@ -311,7 +311,12 @@ class SlideShowPresenter {
 		}
 	}
 
-	private _createPresenterHTML(parent: Element, width: number, height: number) {
+	private _createPresenterHTML(
+		parent: Element,
+		width: number,
+		height: number,
+		options: any,
+	) {
 		const presenterContainer = L.DomUtil.create(
 			'div',
 			'leaflet-slideshow2',
@@ -328,11 +333,12 @@ class SlideShowPresenter {
 			slideshowContainer,
 			width,
 			height,
+			options,
 		);
 		return presenterContainer;
 	}
 
-	_createCanvas(parent: Element, width: number, height: number) {
+	_createCanvas(parent: Element, width: number, height: number, options: any) {
 		const canvas = L.DomUtil.create('canvas', 'leaflet-slideshow2', parent);
 
 		canvas.id = 'slideshow-canvas';
@@ -340,10 +346,12 @@ class SlideShowPresenter {
 		canvas.style.margin = 0;
 		canvas.style.position = 'absolute';
 
-		canvas.addEventListener(
-			'click',
-			this._slideShowNavigator.onClick.bind(this._slideShowNavigator),
-		);
+		if (!options || !options.noClick) {
+			canvas.addEventListener(
+				'click',
+				this._slideShowNavigator.onClick.bind(this._slideShowNavigator),
+			);
+		}
 
 		try {
 			this._slideRenderer = new SlideRendererGl(this, canvas);
@@ -557,6 +565,7 @@ class SlideShowPresenter {
 			body,
 			window.screen.width,
 			window.screen.height,
+			{},
 		);
 		this._slideShowCanvas.focus();
 
@@ -632,6 +641,7 @@ class SlideShowPresenter {
 				this._map._container,
 				window.screen.width,
 				window.screen.height,
+				{},
 			);
 			if (this._presenterContainer.requestFullscreen) {
 				this._presenterContainer
