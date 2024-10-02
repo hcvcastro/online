@@ -19,6 +19,8 @@ class SlideShowNavigator {
 	private keyHandlerMap: Record<string, () => void>;
 	private _canvasClickHandler: MouseClickHandler;
 	private currentSlide: number;
+	private _minSlide: number = 0;
+	private _maxSlide: number = Number.MAX_VALUE;
 	private prevSlide: number;
 	private isEnabled: boolean;
 	private isRewindingToPrevSlide: boolean;
@@ -60,6 +62,11 @@ class SlideShowNavigator {
 
 	private removeHandlers() {
 		this._canvasClickHandler.handleClick = null;
+	}
+
+	public setMinMaxSlide(minSlide: number, maxSlide: number) {
+		this._minSlide = minSlide;
+		this._maxSlide = maxSlide;
 	}
 
 	public setMetaPresentation(metaPres: MetaPresentation) {
@@ -208,6 +215,10 @@ class SlideShowNavigator {
 			NAVDBG.print('SlideShowNavigator.displaySlide: unexpected nNewSlide');
 			return;
 		}
+
+		nNewSlide = Math.max(this._minSlide, nNewSlide);
+		nNewSlide = Math.min(this._maxSlide, nNewSlide);
+
 		if (nNewSlide >= this.theMetaPres.numberOfSlides) {
 			this.currentSlide = nNewSlide;
 			const force = nNewSlide > this.theMetaPres.numberOfSlides;

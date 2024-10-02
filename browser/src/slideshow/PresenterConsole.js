@@ -31,11 +31,23 @@ class PresenterConsole {
 
 		this._slideShowPresenter.onSlideShowInfo(content, { noStart: true });
 		this._slideShowPresenter._slideShowNavigator.enable();
+
+		let minSlide = Math.min(
+			this._slideShowPresenter._startSlide + 1,
+			this._slideShowPresenter._getSlidesCount() - 1,
+		);
+		let maxSlide = Math.max(0, this._slideShowPresenter._getSlidesCount() - 1);
+
+		this._slideShowPresenter._slideShowNavigator.setMinMaxSlide(
+			minSlide,
+			this._slideShowPresenter._getSlidesCount(),
+		);
+		this._map.slideShowPresenter._slideShowNavigator.setMinMaxSlide(
+			0,
+			maxSlide,
+		);
 		this._slideShowPresenter._slideShowNavigator.startPresentation(
-			Math.min(
-				this._slideShowPresenter._startSlide + 1,
-				this._slideShowPresenter._getSlidesCount() - 1,
-			),
+			minSlide,
 			true,
 		);
 	}
