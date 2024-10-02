@@ -538,10 +538,10 @@ class SlideShowPresenter {
 
 	_doFallbackPresentation() {
 		this._stopFullScreen();
-		this._doInWindowPresentation();
+		this._doInWindowPresentation({});
 	}
 
-	_doInWindowPresentation() {
+	_doInWindowPresentation(options: any) {
 		const popupTitle =
 			_('Windowed Presentation: ') + this._map['wopi'].BaseFileName;
 		const htmlContent = this._generateSlideWindowHtml(popupTitle);
@@ -569,7 +569,7 @@ class SlideShowPresenter {
 			body,
 			window.screen.width,
 			window.screen.height,
-			{},
+			options,
 		);
 		this._slideShowCanvas.focus();
 
@@ -577,10 +577,13 @@ class SlideShowPresenter {
 			'resize',
 			this.onSlideWindowResize.bind(this),
 		);
-		this._slideShowWindowProxy.addEventListener(
-			'keydown',
-			this._slideShowNavigator.onKeyDown.bind(this._slideShowNavigator),
-		);
+
+		if (!options || !options.noKeyDown) {
+			this._slideShowWindowProxy.addEventListener(
+				'keydown',
+				this._slideShowNavigator.onKeyDown.bind(this._slideShowNavigator),
+			);
+		}
 
 		const slideShowWindow = this._slideShowWindowProxy;
 		this._map.uiManager.showSnackbar(
@@ -610,7 +613,7 @@ class SlideShowPresenter {
 	}
 
 	/// returns true on success
-	_onPrepareScreen(inWindow: boolean) {
+	_onPrepareScreen(inWindow: boolean, options: any) {
 		if (this._checkPresentationDisabled()) {
 			this._notifyPresentationDisabled();
 			return false;
@@ -636,7 +639,7 @@ class SlideShowPresenter {
 
 		if (!this._map['wopi'].DownloadAsPostMessage) {
 			if (inWindow) {
-				this._doInWindowPresentation();
+				this._doInWindowPresentation(options);
 				return true;
 			}
 
@@ -732,7 +735,7 @@ class SlideShowPresenter {
 
 	/// called when user triggers the presentation using UI
 	_onStart(that: any) {
-		if (!this._onPrepareScreen(false))
+		if (!this._onPrepareScreen(false, {}))
 			// opens full screen, has to be on user interaction
 			return;
 
@@ -742,7 +745,7 @@ class SlideShowPresenter {
 
 	/// called when user triggers the in-window presentation using UI
 	_onStartInWindow(that: any) {
-		if (!this._onPrepareScreen(true))
+		if (!this._onPrepareScreen(true, that.options))
 			// opens full screen, has to be on user interaction
 			return;
 

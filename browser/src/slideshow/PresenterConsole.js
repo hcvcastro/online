@@ -41,7 +41,9 @@ class PresenterConsole {
 	}
 
 	_onPresentInConsole(e) {
-		this._map.fire('newpresentinwindow');
+		this._map.fire('newpresentinwindow', {
+			options: { noClick: true, noKeyDown: true },
+		});
 
 		let top = screen.height - 500;
 		let left = screen.width - 500;
