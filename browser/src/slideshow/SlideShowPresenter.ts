@@ -373,11 +373,14 @@ class SlideShowPresenter {
 	}
 
 	exitSlideshowWithWarning(): boolean {
-		// TODO 2D version for disabled webGL
-		if (this._slideRenderer._context.is2dGl()) return false;
-		new SlideShow.StaticTextRenderer(this._slideRenderer._context).display(
-			_('Click to exit presentation...'),
-		);
+		if (this._slideRenderer._context.is2dGl())
+			new SlideShow.StaticTextRenderer2D(this._slideRenderer._context).display(
+				_('Click to exit presentation...'),
+			);
+		else
+			new SlideShow.StaticTextRenderer(this._slideRenderer._context).display(
+				_('Click to exit presentation...'),
+			);
 		return true;
 	}
 
