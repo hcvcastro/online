@@ -121,6 +121,7 @@ class PresenterConsole {
 			L.bind(this._onKeyDown, this),
 		);
 		this._slideShowPresenter._stopFullScreen();
+		this._slideShowPresenter.getNavigator().quit();
 		delete this._proxyPresenter;
 		this._map.on('newpresentinconsole', this._onPresentInConsole, this);
 	}
