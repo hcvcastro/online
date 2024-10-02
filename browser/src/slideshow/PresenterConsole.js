@@ -75,7 +75,7 @@ class PresenterConsole {
 			this._proxyPresenter.document.querySelector('#root-in-window'),
 			this._proxyPresenter.window.innerWidth,
 			this._proxyPresenter.window.innherHeight,
-			{ noClick: true },
+			{ noClick: true, render2d: true },
 		);
 
 		this._proxyPresenter.addEventListener('click', L.bind(this._onClick, this));

@@ -358,7 +358,11 @@ class SlideShowPresenter {
 		}
 
 		try {
-			this._slideRenderer = new SlideRendererGl(this, canvas);
+			if (options && options.render2d) {
+				this._slideRenderer = new SlideRenderer2d(this, canvas);
+			} else {
+				this._slideRenderer = new SlideRendererGl(this, canvas);
+			}
 		} catch (error) {
 			this._slideRenderer = new SlideRenderer2d(this, canvas);
 		}
