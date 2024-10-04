@@ -285,7 +285,7 @@ class LayerDrawing {
 		}
 
 		if (this.slideCache.has(slideHash)) {
-			this.onSlideRenderingComplete({ success: true });
+			this.onSlideRenderingComplete({ success: true, slide: slideHash });
 			return;
 		}
 
@@ -293,7 +293,7 @@ class LayerDrawing {
 		const masterPageRendered = this.drawMasterPage(slideHash);
 		if (backgroundRendered && masterPageRendered) {
 			if (this.drawDrawPage(slideHash)) {
-				this.onSlideRenderingComplete({ success: true });
+				this.onSlideRenderingComplete({ success: true, slide: slideHash });
 				return;
 			}
 		}
@@ -604,6 +604,10 @@ class LayerDrawing {
 
 		const layers = this.cachedDrawPages.get(this.requestedSlideHash);
 		if (!layers || layers.length === 0) {
+			return;
+		}
+
+		if (e.slide !== this.requestedSlideHash) {
 			return;
 		}
 

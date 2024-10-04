@@ -1659,10 +1659,8 @@ L.CanvasTileLayer = L.Layer.extend({
 				image: img
 			});
 		} else if (textMsg.startsWith('sliderenderingcomplete:')) {
-			const status = textMsg.substring('sliderenderingcomplete:'.length + 1);
-			this._map.fire('sliderenderingcomplete', {
-				success: status === 'success'
-			});
+			const data = JSON.parse(textMsg.substring('sliderenderingcomplete:'.length + 1));
+			this._map.fire('sliderenderingcomplete', data);
 		}
 	},
 
