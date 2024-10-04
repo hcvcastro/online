@@ -345,8 +345,8 @@ class SlideShowPresenter {
 	_createCanvas(parent: Element, width: number, height: number, options: any) {
 		const canvas = L.DomUtil.create('canvas', 'leaflet-slideshow2', parent);
 
-		canvas.style.width = "100%";
-		canvas.style.height = "100%";
+		canvas.style.width = '100%';
+		canvas.style.height = '100%';
 
 		if (options && !options.noStyle) {
 			canvas.id = 'slideshow-canvas';

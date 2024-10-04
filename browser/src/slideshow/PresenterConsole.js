@@ -19,7 +19,10 @@
 class PresenterConsole {
 	constructor(map) {
 		this._map = map;
-		this._slideShowPresenter = new SlideShow.SlideShowPresenter(map, {
+		this._firstPresenter = new SlideShow.SlideShowPresenter(map, {
+			noHooks: true,
+		});
+		this._secondPresenter = new SlideShow.SlideShowPresenter(map, {
 			noHooks: true,
 		});
 		this._map.on('presentationinfo', this._onPresentationInfo, this);
@@ -59,27 +62,38 @@ class PresenterConsole {
 	_onPresentationInfo(content) {
 		if (!this._proxyPresenter) return;
 
-		this._slideShowPresenter.onSlideShowInfo(content, { noStart: true });
-		this._slideShowPresenter._slideShowNavigator.enable();
+		this._firstPresenter.onSlideShowInfo(content, {
+			noStart: true,
+			noCenter: true,
+		});
+		this._firstPresenter._slideShowNavigator.enable();
+
+		this._secondPresenter.onSlideShowInfo(content, {
+			noStart: true,
+			noCenter: true,
+		});
+		this._secondPresenter._slideShowNavigator.enable();
 
 		let minSlide = Math.min(
-			this._slideShowPresenter._startSlide + 1,
-			this._slideShowPresenter._getSlidesCount() - 1,
+			this._firstPresenter._startSlide + 1,
+			this._firstPresenter._getSlidesCount() - 1,
 		);
-		let maxSlide = Math.max(0, this._slideShowPresenter._getSlidesCount() - 1);
+		let maxSlide = Math.max(0, this._firstPresenter._getSlidesCount() - 1);
 
-		this._slideShowPresenter._slideShowNavigator.setMinMaxSlide(
+		this._firstPresenter._slideShowNavigator.setMinMaxSlide(0, maxSlide);
+		this._secondPresenter._slideShowNavigator.setMinMaxSlide(
 			minSlide,
-			this._slideShowPresenter._getSlidesCount(),
+			this._secondPresenter._getSlidesCount(),
 		);
 		this._map.slideShowPresenter._slideShowNavigator.setMinMaxSlide(
 			0,
 			maxSlide,
 		);
-		this._slideShowPresenter._slideShowNavigator.startPresentation(
-			minSlide,
+		this._firstPresenter._slideShowNavigator.startPresentation(
+			this._firstPresenter._startSlide,
 			true,
 		);
+		this._secondPresenter._slideShowNavigator.startPresentation(minSlide, true);
 	}
 
 	_onPresentInConsole(e) {
@@ -95,7 +109,7 @@ class PresenterConsole {
 			'popup,width=800,height=500,left=' + left + ',top=' + top,
 		);
 		if (!this._proxyPresenter) {
-			this._slideShowPresenter._notifyBlockedPresenting();
+			this._firstPresenter._notifyBlockedPresenting();
 			return;
 		}
 
@@ -147,24 +161,44 @@ class PresenterConsole {
 		elem = this._proxyPresenter.document.querySelector('#notes');
 		elem.style.height = '50%';
 
+		let content = this._proxyPresenter.document.querySelector(
+			'#first-presentation',
 		);
+		this._firstPresenter._createPresenterHTML(content, null, null, {
+			noClick: true,
+			render2d: true,
+			noStyle: true,
+		});
+		content.style.width = '100%';
+		content.style.height = '100%';
+
+		content = this._proxyPresenter.document.querySelector('#next-presentation');
+		this._secondPresenter._createPresenterHTML(content, null, null, {
+			noClick: true,
+			render2d: true,
+			noStyle: true,
+		});
+		content.style.width = '100%';
+		content.style.height = '50%';
 
 		this._proxyPresenter.addEventListener('click', L.bind(this._onClick, this));
 		this._proxyPresenter.addEventListener(
 			'keydown',
 			L.bind(this._onKeyDown, this),
 		);
-		this._slideShowPresenter._startSlide =
+		this._firstPresenter._startSlide = this._secondPresenter._startSlide =
 			e && e.startSlideNumber ? e.startSlideNumber : 0;
 	}
 
 	_onKeyDown(e) {
-		this._slideShowPresenter.getNavigator().onKeyDown(e);
+		this._firstPresenter.getNavigator().onKeyDown(e);
+		this._secondPresenter.getNavigator().onKeyDown(e);
 		this._map.slideShowPresenter.getNavigator().onKeyDown(e);
 	}
 
 	_onClick(e) {
-		this._slideShowPresenter.getNavigator().onClick(e);
+		this._firstPresenter.getNavigator().onClick(e);
+		this._secondPresenter.getNavigator().onClick(e);
 		this._map.slideShowPresenter.getNavigator().onClick(e);
 	}
 
@@ -176,7 +210,10 @@ class PresenterConsole {
 	}
 
 	_onConsoleClose() {
-		if (!this._map.slideShowPresenter._slideShowWindowProxy.closed)
+		if (
+			this._map.slideShowPresenter._slideShowWindowProxy &&
+			!this._map.slideShowPresenter._slideShowWindowProxy.closed
+		)
 			this._map.slideShowPresenter._slideShowWindowProxy.close();
 
 		this._proxyPresenter.removeEventListener(
@@ -187,8 +224,10 @@ class PresenterConsole {
 			'keydown',
 			L.bind(this._onKeyDown, this),
 		);
-		this._slideShowPresenter._stopFullScreen();
-		this._slideShowPresenter.getNavigator().quit();
+		this._firstPresenter._stopFullScreen();
+		this._firstPresenter.getNavigator().quit();
+		this._secondPresenter._stopFullScreen();
+		this._secondPresenter.getNavigator().quit();
 		delete this._proxyPresenter;
 		this._map.on('newpresentinconsole', this._onPresentInConsole, this);
 	}
