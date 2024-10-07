@@ -74,12 +74,14 @@ class PresenterConsole {
 		this._firstPresenter.onSlideShowInfo(content, {
 			noStart: true,
 			noCenter: true,
+			noAnimation: true,
 		});
 		this._firstPresenter._slideShowNavigator.enable();
 
 		this._secondPresenter.onSlideShowInfo(content, {
 			noStart: true,
 			noCenter: true,
+			noAnimation: true,
 		});
 		this._secondPresenter._slideShowNavigator.enable();
 

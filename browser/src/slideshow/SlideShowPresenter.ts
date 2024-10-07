@@ -796,6 +796,7 @@ class SlideShowPresenter {
 				data,
 				this._slideShowHandler,
 				this._slideShowNavigator,
+				options,
 			);
 			this._slideShowHandler.setMetaPresentation(this._metaPresentation);
 			this._slideShowNavigator.setMetaPresentation(this._metaPresentation);
