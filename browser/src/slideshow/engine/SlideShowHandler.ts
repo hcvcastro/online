@@ -395,6 +395,10 @@ class SlideShowHandler {
 
 			this.update();
 		} else this.notifyAnimationsEnd();
+
+		if (this.presenter._eventCallback) {
+			this.presenter._eventCallback(nNewSlide);
+		}
 	}
 
 	notifyInteractiveAnimationSequenceStart(nNodeId: number) {

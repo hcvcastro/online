@@ -71,6 +71,7 @@ interface SlideInfo {
 	hash: string;
 	index: number;
 	name: string;
+	notes: string;
 	empty: boolean;
 	hidden?: boolean;
 	masterPage: string;
@@ -117,6 +118,7 @@ class SlideShowPresenter {
 	_canvasLoader: CanvasLoader | null = null;
 	_isAnimationPlaying: boolean = false;
 	_isPresentInWindow: boolean = false;
+	_eventCallback: (slide: number) => any;
 	private _pauseTimer: PauseTimerGl | PauseTimer2d;
 	private _slideShowHandler: SlideShowHandler;
 	private _slideShowNavigator: SlideShowNavigator;
@@ -186,6 +188,15 @@ class SlideShowPresenter {
 
 	public getCanvas(): HTMLCanvasElement {
 		return this._slideShowCanvas;
+	}
+
+	public addEventCallback(callback: (slide: number) => any) {
+		this._eventCallback = callback;
+	}
+
+	public getNotes(slide: number) {
+		const info = this.getSlideInfo(slide);
+		return info.notes;
 	}
 
 	_onFullScreenChange() {

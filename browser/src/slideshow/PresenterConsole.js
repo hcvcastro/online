@@ -25,6 +25,7 @@ class PresenterConsole {
 		this._secondPresenter = new SlideShow.SlideShowPresenter(map, {
 			noHooks: true,
 		});
+		this._firstPresenter.addEventCallback(L.bind(this._onEndTransition, this));
 		this._map.on('presentationinfo', this._onPresentationInfo, this);
 		this._map.on('newpresentinconsole', this._onPresentInConsole, this);
 	}
@@ -57,6 +58,14 @@ class PresenterConsole {
 			</body>
 			</html>
 			`;
+	}
+
+	_onEndTransition(slide) {
+		let notes = this._firstPresenter.getNotes(slide);
+		let elem = this._proxyPresenter.document.querySelector('#notes');
+		if (elem) {
+			elem.innerText = notes;
+		}
 	}
 
 	_onPresentationInfo(content) {
