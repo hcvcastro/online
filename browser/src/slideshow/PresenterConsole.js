@@ -47,7 +47,10 @@ class PresenterConsole {
                                 <header>
                                 </header>
                                 <main id="main-content">
-                                     <div id="first-presentation"></div>
+                                     <div id="first-presentation">
+                                         <div id="current-presentation"></div>
+                                         <div id="timer"></div>
+                                     </div>
                                      <div id="second-presentation">
                                          <div id="next-presentation"></div>
                                          <div id='notes'></div>
@@ -105,6 +108,8 @@ class PresenterConsole {
 			true,
 		);
 		this._secondPresenter._slideShowNavigator.startPresentation(minSlide, true);
+		this._timer = setInterval(L.bind(this._onTimer, this), 1000);
+		this._ticks = 0;
 	}
 
 	_onPresentInConsole(e) {
@@ -166,6 +171,16 @@ class PresenterConsole {
 		elem.style.flexDirection = 'column';
 		elem.style.flex = '1';
 
+		elem = this._proxyPresenter.document.querySelector('#current-presentation');
+		elem.style.height = '50%';
+
+		elem = this._proxyPresenter.document.querySelector('#timer');
+		elem.style.textAlign = 'center';
+		elem.style.verticalAlign = 'middle';
+		elem.style.fontSize = 'large';
+		elem.style.fontWeight = 'bold';
+		elem.style.height = '50%';
+
 		elem = this._proxyPresenter.document.querySelector('#next-presentation');
 		elem.style.height = '50%';
 
@@ -173,7 +188,7 @@ class PresenterConsole {
 		elem.style.height = '50%';
 
 		let content = this._proxyPresenter.document.querySelector(
-			'#first-presentation',
+			'#current-presentation',
 		);
 		this._firstPresenter._createPresenterHTML(content, null, null, {
 			noClick: true,
@@ -181,7 +196,7 @@ class PresenterConsole {
 			noStyle: true,
 		});
 		content.style.width = '100%';
-		content.style.height = '100%';
+		content.style.height = '50%';
 
 		content = this._proxyPresenter.document.querySelector('#next-presentation');
 		this._secondPresenter._createPresenterHTML(content, null, null, {
@@ -213,6 +228,25 @@ class PresenterConsole {
 		this._map.slideShowPresenter.getNavigator().onClick(e);
 	}
 
+	_onTimer() {
+		let sec, min, hour, elem;
+		++this._ticks;
+		sec = this._ticks % 60;
+		min = Math.floor(this._ticks / 60);
+		hour = Math.floor(min / 60);
+		min = min % 60;
+
+		elem = this._proxyPresenter.document.querySelector('#timer');
+		if (elem) {
+			elem.innerText =
+				String(hour).padStart(2, '0') +
+				':' +
+				String(min).padStart(2, '0') +
+				':' +
+				String(sec).padStart(2, '0');
+		}
+	}
+
 	_onWindowClose() {
 		if (this._proxyPresenter && !this._proxyPresenter.closed)
 			this._proxyPresenter.close();
@@ -235,6 +269,8 @@ class PresenterConsole {
 			'keydown',
 			L.bind(this._onKeyDown, this),
 		);
+		clearInterval(this._timer);
+		this._ticks = 0;
 		this._firstPresenter._stopFullScreen();
 		this._firstPresenter.getNavigator().quit();
 		this._secondPresenter._stopFullScreen();
