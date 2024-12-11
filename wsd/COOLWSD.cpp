@@ -1399,7 +1399,8 @@ void COOLWSD::innerInitialize(Poco::Util::Application& self)
     }
 
     // Experimental features.
-    EnableExperimental = ConfigUtil::getConfigValue<bool>(conf, "experimental_features", false);
+    EnableExperimental = (ConfigUtil::getConfigValue<bool>(conf, "legacy_presentation", false) ? false :
+                          ConfigUtil::getConfigValue<bool>(conf, "experimental_features", false));
 
     EnableAccessibility = ConfigUtil::getConfigValue<bool>(conf, "accessibility.enable", false);
 
