@@ -20,6 +20,7 @@ describe(['tagdesktop'], 'Signature operations.', function() {
 		cy.cGet('#test-div-shapeHandlesSection').should('exist');
 		// Finish signing:
 		cy.cGet('#menu-file').click();
+		cy.cGet('#menu-signature').parent().should('be.visible');
 		cy.cGet('#menu-signature').click();
 
 		// Then make sure the resulting signature is valid:
