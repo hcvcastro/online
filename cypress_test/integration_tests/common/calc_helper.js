@@ -1,3 +1,4 @@
+/* -*- js-indent-level: 8 -*- */
 /* global cy expect Cypress require expect */
 
 var helper = require('./helper');
@@ -58,11 +59,16 @@ function clickOnFirstCell(firstClick = true, dblClick = false, isA1 = true) {
 			expect(items).to.have.lengthOf(1);
 			const XPos = items[0].getBoundingClientRect().left + 60;
 			const YPos = items[0].getBoundingClientRect().top + 30;
+			// The 'mouse' protocol message should be sent to the server after the click operation.
+			helper.setDispatchMsg('mouse type=buttonup');
 			if (dblClick)
 				cy.cGet('body').dblclick(XPos, YPos);
 			else
 				cy.cGet('body').click(XPos, YPos);
 		});
+
+	// Verify that 'mouse' protocol messages are sent to the server.
+	helper.checkDispatchedMsg('mouse type=buttonup');
 
 	if (firstClick && !dblClick) {
 		cy.cGet('#test-div-OwnCellCursor').should('exist');
@@ -104,7 +110,12 @@ function clickOnACell(currentColumnIndex, currentRowIndex, clickColumnIndex, cli
 			const currentY = clientRect.top + parseInt(clientRect.height * 0.5);
 			const clickX = currentX + clientRect.width * (clickColumnIndex - currentColumnIndex);
 			const clickY = currentY + clientRect.height * (clickRowIndex - currentRowIndex);
+
+			// The 'mouse' protocol message should be sent to the server after the click operation.
+			helper.setDispatchMsg('mouse type=buttonup');
 			cy.cGet('body').click(clickX, clickY);
+			// Verify that 'mouse' protocol messages are sent to the server.
+			helper.checkDispatchedMsg('mouse type=buttonup');
 		});
 
 	cy.log('>> clickOnACell - end');
