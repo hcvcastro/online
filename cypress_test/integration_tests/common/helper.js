@@ -1227,6 +1227,21 @@ function getMenuEntry(index) {
 	return cy.cGet('.ui-dialog-content div.ui-combobox-entry span').eq(index);
 }
 
+function setDispatchMsg(msg) {
+	cy.getFrameWindow()
+		.its('L')
+		.then(function(L) {
+			L._dispatch = msg;
+			L.initial._dispatch = '';
+		});
+}
+
+function checkDispatchedMsg(msg) {
+	cy.cGet('#initial-variables').then(function(elem) {
+		cy.wrap(elem).should('have.prop', '_dispatch', msg);
+	});
+}
+
 module.exports.setupDocument = setupDocument;
 module.exports.loadDocument = loadDocument;
 module.exports.setupAndLoadDocument = setupAndLoadDocument;
@@ -1277,3 +1292,5 @@ module.exports.addressInputSelector = "#addressInput input";
 module.exports.assertImageSize = assertImageSize;
 module.exports.containsFocusElement = containsFocusElement;
 module.exports.getMenuEntry = getMenuEntry;
+module.exports.setDispatchMsg = setDispatchMsg;
+module.exports.checkDispatchedMsg = checkDispatchedMsg;

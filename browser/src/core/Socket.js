@@ -85,6 +85,7 @@ app.definitions.Socket = class Socket extends SocketBase {
 
 		if (window.L.Browser.cypressTest) {
 			window.L.initial._stubSend(msg);
+			this._captureDispatch(msg);
 		}
 
 		this.socket.send(msg);
@@ -560,6 +561,17 @@ app.definitions.Socket = class Socket extends SocketBase {
 			unauthorizedMsg += ' ' + verifyError;
 		}
 		return unauthorizedMsg;
+	}
+
+	// Cypress test
+	_captureDispatch(textMsg) {
+		if (!L._dispatch)
+			return;
+
+		if (textMsg.startsWith(L._dispatch)) {
+			L.initial._dispatch = L._dispatch;
+			delete L._dispatch;
+		}
 	}
 
 	_onMessage(e) {
