@@ -1242,6 +1242,17 @@ function checkDispatchedMsg(msg) {
 	});
 }
 
+function closeAllDialogs() {
+	cy.getFrameWindow().its('L').then(function(L) {
+		let map = L.Map.THIS;
+		if (map.jsdialog) {
+			if (map.jsdialog.hasDialogOpened()) {
+				map.jsdialog.closeAll();
+			}
+		}
+	});
+}
+
 module.exports.setupDocument = setupDocument;
 module.exports.loadDocument = loadDocument;
 module.exports.setupAndLoadDocument = setupAndLoadDocument;
@@ -1294,3 +1305,4 @@ module.exports.containsFocusElement = containsFocusElement;
 module.exports.getMenuEntry = getMenuEntry;
 module.exports.setDispatchMsg = setDispatchMsg;
 module.exports.checkDispatchedMsg = checkDispatchedMsg;
+module.exports.closeAllDialogs = closeAllDialogs;

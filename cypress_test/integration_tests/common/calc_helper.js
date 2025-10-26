@@ -52,6 +52,8 @@ function clickOnFirstCell(firstClick = true, dblClick = false, isA1 = true) {
 	cy.log('Param - firstClick: ' + firstClick);
 	cy.log('Param - dblClick: ' + dblClick);
 
+	helper.closeAllDialogs();
+
 	// Use the tile's edge to find the first cell's position
 	cy.cGet('#canvas-container').should('exist');
 	cy.cGet('#canvas-container')
