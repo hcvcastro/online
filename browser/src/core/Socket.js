@@ -323,6 +323,9 @@ app.definitions.Socket = class Socket extends SocketBase {
 					try {
 						// it is - are you ?
 						this._onMessage(evt);
+						if (window.L.Browser.cypressTest) {
+							this._captureReceive(evt.textMsg);
+						}
 					}
 					catch (e)
 					{
@@ -571,6 +574,16 @@ app.definitions.Socket = class Socket extends SocketBase {
 		if (textMsg.startsWith(L._dispatch)) {
 			L.initial._dispatch = L._dispatch;
 			delete L._dispatch;
+		}
+	}
+
+	_captureReceive(textMsg) {
+		if (!L._receive)
+			return;
+
+		if (textMsg.startsWith(L._receive)) {
+			L.initial._receive = L._receive;
+			delete L._receive;
 		}
 	}
 
@@ -1467,6 +1480,9 @@ app.definitions.Socket = class Socket extends SocketBase {
 			var message = this._delayedMessages.shift();
 			try {
 				docLayer._onMessage(message.msg);
+				if (window.L.Browser.cypressTest) {
+					this._captureReceive(message.msg);
+				}
 			} catch (e) {
 				// unpleasant - but stops this one problem
 				// event stopping an unknown number of others.

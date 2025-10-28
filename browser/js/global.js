@@ -233,8 +233,28 @@ class InitializerBase {
 		}
 
 		const element = window.L.initial = document.getElementById("initial-variables");
+		// cypress functions usage
 		window.L.initial._stubMessage = function () {};
 		window.L.initial._stubSend = function () {};
+		window.L.initial._stubLog = function () {};
+		window.L.waitMsg = async function (msg, cond, timeout) {
+			if (!msg) {
+				return;
+			}
+
+			let retries = 0;
+			while (retries < 3) {
+				if (cond.call()) {
+					return;
+				}
+				// eslint-disable-next-line no-await-in-loop
+				await new Promise(resolve =>{setTimeout(resolve, timeout)});
+				L.initial._stubLog('retrying waiting message => ' + msg + ' retry: ' + retries);
+				retries++;
+			}
+			throw Error('failed to waiting message => ' + msg);
+		};
+		// end cypress
 
 		window.host = "";
 		window.serviceRoot = "";

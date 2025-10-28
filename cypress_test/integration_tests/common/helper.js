@@ -214,6 +214,15 @@ function loadDocumentNoIntegration(filePath, isMultiUser) {
 				});
 		}
 
+		cy.getFrameWindow()
+			.its('L', {log: false})
+			.then(function(L) {
+				cy.stub(L.initial, '_stubLog')
+					.log(false)
+					.callsFake(function(e){
+						Cypress.log({name: 'stubLog =>', message: e});
+					});
+			});
 	});
 
 	cy.log('<< loadDocumentNoIntegration - end');
@@ -1242,6 +1251,26 @@ function checkDispatchedMsg(msg) {
 	});
 }
 
+function setReceiveMsg(msg) {
+	cy.getFrameWindow()
+		.its('L')
+		.then(function(L) {
+			L._receive = msg;
+			L.initial._receive = '';
+		});
+}
+
+function checkReceivedMsg(msg) {
+	cy.getFrameWindow()
+		.its('L')
+		.then({timeout: 60000}, async function(L) {
+			await L.waitMsg(L._receive,
+					function() { return L.initial._receive !== '' },
+					Cypress.config('defaultCommandTimeout'));
+			expect(L.initial._receive, 'Expect message to be received').to.eq(msg);
+		});
+}
+
 function closeAllDialogs() {
 	cy.getFrameWindow().its('L').then(function(L) {
 		let map = L.Map.THIS;
@@ -1305,4 +1334,6 @@ module.exports.containsFocusElement = containsFocusElement;
 module.exports.getMenuEntry = getMenuEntry;
 module.exports.setDispatchMsg = setDispatchMsg;
 module.exports.checkDispatchedMsg = checkDispatchedMsg;
+module.exports.setReceiveMsg = setReceiveMsg;
+module.exports.checkReceivedMsg = checkReceivedMsg;
 module.exports.closeAllDialogs = closeAllDialogs;
