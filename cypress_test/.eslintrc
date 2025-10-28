@@ -6,7 +6,7 @@
       "cypress-rules/no-get-invoke-match-chain": 2
   },
   "parserOptions": {
-      "ecmaVersion": 6,
+      "ecmaVersion": 2020,
       "sourceType": "module",
       "ecmaFeatures": {
       }
