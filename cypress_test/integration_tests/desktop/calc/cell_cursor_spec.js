@@ -1,3 +1,4 @@
+/* -*- js-indent-level: 8 -*- */
 /* global describe it cy beforeEach expect require */
 
 var helper = require('../../common/helper');
@@ -70,16 +71,22 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Test Cell Selections', fun
 		cy.cGet('div.clipboard').type('{ctrl}', { release: false });
 
 		cy.wait(500);
+		helper.setReceiveMsg('cellselectionarea:');
 		calcHelper.clickOnACell(2, 3, 4, 3);
+		helper.checkReceivedMsg('cellselectionarea:');
 
 		cy.wait(500);
+		helper.setReceiveMsg('cellselectionarea:');
 		calcHelper.clickOnACell(4, 3, 2, 6);
+		helper.checkReceivedMsg('cellselectionarea:');
 
 		// Press SHIFT and hold.
 		cy.cGet('div.clipboard').type('{shift}', { release: false });
 
 		cy.wait(500);
+		helper.setReceiveMsg('cellselectionarea:');
 		calcHelper.clickOnACell(2, 6, 2, 10);
+		helper.checkReceivedMsg('cellselectionarea:');
 
 		cy.wait(500);
 
