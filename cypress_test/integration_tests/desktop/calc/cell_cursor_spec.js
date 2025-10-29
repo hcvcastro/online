@@ -38,6 +38,7 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Test jumping on large cell
 		cy.cGet('#search').find('button').click();
 		helper.checkReceivedMsg('celladdress:');
 
+		cy.cGet(helper.addressInputSelector).should('not.be.focused');
 		cy.cGet(helper.addressInputSelector).should('have.value', 'A10');
 		desktopHelper.assertScrollbarPosition('horizontal', 40, 60);
 	});
