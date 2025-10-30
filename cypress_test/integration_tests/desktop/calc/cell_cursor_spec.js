@@ -35,7 +35,7 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Test jumping on large cell
 		helper.typeIntoDocument('{ctrl}f');
 		cy.cGet('input#searchterm-input-dialog').clear().type('FIRST');
 		helper.setReceiveMsg('celladdress:');
-		cy.cGet('#search').find('button').click();
+		cy.cGet('#search').find('button').focus().click();
 		helper.checkReceivedMsg('celladdress:');
 
 		cy.cGet(helper.addressInputSelector).should('not.be.focused');
