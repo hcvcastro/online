@@ -54,8 +54,12 @@ class AddressInputField {
 		if (addressInput && document.activeElement !== addressInput) {
 			// if the user is not editing the address field
 			addressInput.value = event.address;
+			window.L.initial._stubLog('#addressInput input element changed value ' + event.address);
 			addressInput.setAttribute('aria-label', event.address);
-		}
+		} else {
+                        window.L.initial._stubLog('warning: #addressInput input element ignore update ' + event.address);
+                }
+
 		this.map.formulabarSetDirty();
 	}
 
