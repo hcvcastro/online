@@ -1246,9 +1246,14 @@ function setDispatchMsg(msg) {
 }
 
 function checkDispatchedMsg(msg) {
-	cy.cGet('#initial-variables').then(function(elem) {
-		cy.wrap(elem).should('have.prop', '_dispatch', msg);
-	});
+	cy.getFrameWindow()
+		.its('L')
+		.then({timeout: 60000}, async function(L) {
+			await L.waitMsg(L._dispatch,
+					function () { return L.initial._dispatch !== '' },
+					Cypress.config('defaultCommandTimeout'));
+			expect(L.initial._dispatch, 'Expect message to be dispatched').to.eq(msg);
+		});
 }
 
 function setReceiveMsg(msg) {
