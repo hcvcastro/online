@@ -20,7 +20,9 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Slide operations', functio
 
 	it('Remove slides', function() {
 		// Add slides
+		helper.setDispatchMsg('uno .uno:InsertPage');
 		cy.cGet('#presentation-toolbar #insertpage').click();
+		helper.checkDispatchedMsg('uno .uno:InsertPage');
 
 		impressHelper.assertNumberOfSlidePreviews(2);
 
@@ -28,10 +30,14 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Slide operations', functio
 		cy.cGet('#presentation-toolbar #deletepage')
 			.should('not.have.attr', 'disabled');
 
+		helper.setDispatchMsg('uno .uno:DeletePage');
 		cy.cGet('#presentation-toolbar #deletepage')
-			.click();
+			.click().then(function () {
+				cy.cGet('#modal-dialog-deleteslide-modal').should('be.visible');
+			});
 
 		cy.cGet('#modal-dialog-deleteslide-modal .button-primary').click();
+		helper.checkDispatchedMsg('uno .uno:DeletePage');
 
 		cy.cGet('#presentation-toolbar #deletepage')
 			.should('have.attr', 'disabled')
