@@ -1,3 +1,4 @@
+/* -*- js-indent-level: 8 -*- */
 /* global describe it cy beforeEach require Cypress */
 
 var helper = require('../../common/helper');
@@ -209,6 +210,7 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Calc clipboard tests.', fu
 
 	it('Paste-Special', function () {
 		helper.setDummyClipboardForCopy();
+		cy.wait(500);
 
 		calcHelper.clickOnFirstCell();
 		helper.typeIntoDocument('Something to copy paste.');
@@ -217,7 +219,10 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Calc clipboard tests.', fu
 
 		cy.cGet('#canvas-container').then((items) => {
 			const rect = items[0].getBoundingClientRect();
+			// button up is ignored
+			helper.setDispatchMsg('mouse type=buttondown');
 			cy.cGet('body').rightclick(rect.left + 55, rect.top + 40);
+			helper.checkDispatchedMsg('mouse type=buttondown');
 		});
 		cy.cGet('.on-the-fly-context-menu').should('be.visible');
 		cy.cGet('body').contains('.on-the-fly-context-menu .context-menu-item', 'Copy').should('be.visible');
@@ -226,7 +231,14 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Calc clipboard tests.', fu
 		helper.typeIntoDocument('{rightArrow}');
 		helper.typeIntoDocument('{rightArrow}');
 
+		// close all warning popup dialogs
+		helper.closeAllDialogs();
+
+		// button up is ignored
+		helper.setDispatchMsg('mouse type=buttondown');
 		cy.cGet('#canvas-container').rightclick(250, 35);
+		helper.checkDispatchedMsg('mouse type=buttondown');
+
 		cy.cGet('.on-the-fly-context-menu').should('be.visible');
 		cy.cGet('body').contains('.on-the-fly-context-menu .context-menu-item', 'Paste Special').should('be.visible');
 		cy.cGet('body').contains('.on-the-fly-context-menu .context-menu-item', 'Paste Special').click();
