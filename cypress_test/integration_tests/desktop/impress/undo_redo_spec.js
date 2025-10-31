@@ -1,3 +1,4 @@
+/* -*- js-indent-level: 8 -*- */
 /* global describe it beforeEach require cy */
 
 var helper = require('../../common/helper');
@@ -10,8 +11,12 @@ describe(['tagdesktop'], 'Editing Operations', function() {
 	function expectInitialText() {
 		impressHelper.triggerNewSVGForShapeInTheCenter();
 		impressHelper.dblclickOnSelectedShape();
+		helper.setReceiveMsg('textselection:');
 		helper.typeIntoDocument('{ctrl+a}');
+		helper.checkReceivedMsg('textselection:');
 		helper.copy();
+		helper.closeAllDialogs();
+
 		helper.clipboardTextShouldBeDifferentThan('Hello World');
 	}
 
@@ -20,10 +25,12 @@ describe(['tagdesktop'], 'Editing Operations', function() {
 
 		impressHelper.triggerNewSVGForShapeInTheCenter();
 		impressHelper.dblclickOnSelectedShape();
+		helper.setReceiveMsg('textselection:');
 		helper.typeIntoDocument('{ctrl+a}');
+		helper.checkReceivedMsg('textselection:');
 		helper.copy();
+		helper.closeAllDialogs();
 
-		impressHelper.dblclickOnSelectedShape();
 		helper.expectTextForClipboard('Hello World');
 
 		cy.log('expectTypedText - END');
@@ -44,7 +51,9 @@ describe(['tagdesktop'], 'Editing Operations', function() {
 		cy.wait(500); // Same, wait for server response.
 		helper.typeIntoDocument('Hello World');
 		expectTypedText();
+		helper.setDispatchMsg('uno .uno:Undo');
 		helper.typeIntoDocument('{ctrl+z}');
+		helper.checkDispatchedMsg('uno .uno:Undo');
 		expectInitialText();
 	}
 
@@ -56,8 +65,10 @@ describe(['tagdesktop'], 'Editing Operations', function() {
 	it('Redo', function() {
 		helper.setDummyClipboardForCopy();
 		undo();
+		helper.setDispatchMsg('uno .uno:Redo');
 		helper.typeIntoDocument('{ctrl+y}');
 		cy.wait(500); // Wait a little for server response.
+		helper.checkDispatchedMsg('uno .uno:Redo');
 		expectTypedText();
 	});
 

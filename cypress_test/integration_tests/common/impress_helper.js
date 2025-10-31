@@ -82,8 +82,10 @@ function clickCenterOfSlide(modifiers) {
 function selectTextShapeInTheCenter() {
 	cy.log('>> selectTextShapeInTheCenter - start');
 
+	helper.setReceiveMsg('graphicselection:');
 	// Click on the center of the slide to select the text shape there
 	clickCenterOfSlide( { } );
+	helper.checkReceivedMsg('graphicselection:');
 
 	cy.cGet('#test-div-shape-handle-rotation').should('exist');
 	cy.cGet('#document-container svg g.Page g').should('exist');
@@ -185,14 +187,18 @@ function selectTextOfShape() {
 function dblclickOnSelectedShape() {
 	cy.log('>> dblclickOnSelectedShape - start');
 
+	helper.setReceiveMsg('cursorvisible:');
 	cy.cGet('#canvas-container > svg')
 		.then(function(element) {
 			expect(element).to.have.length(1);
 			const x = parseInt(element[0].style.left.replace('px', '')) + parseInt(element[0].style.width.replace('px', '')) / 2;
 			const y = parseInt(element[0].style.top.replace('px', '')) + parseInt(element[0].style.height.replace('px', '')) / 2;
+			helper.setDispatchMsg('mouse type=buttonup');
 			cy.cGet('#document-canvas').dblclick(x, y, { force: true });
+			helper.checkDispatchedMsg('mouse type=buttonup');
 		});
 
+	helper.checkReceivedMsg('cursorvisible:');
 	// check if any of text input markers exist
 	cy.cGet('.leaflet-cursor-container, .text-selection-handle-start, .leaflet-cursor.blinking-cursor')
 		.should('exist');
