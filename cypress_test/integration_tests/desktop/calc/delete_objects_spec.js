@@ -1,3 +1,4 @@
+/* -*- js-indent-level: 8 -*- */
 /* global describe it cy require beforeEach expect Cypress*/
 var helper = require('../../common/helper');
 const desktopHelper = require('../../common/desktop_helper');
@@ -40,12 +41,21 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Delete Objects', function(
 	it('Delete Chart' , function() {
 		cy.cGet('#toolbar-up #overflow-button-other-toptoolbar .arrowbackground').click();
 		//insert
+		helper.setDispatchMsg('uno .uno:InsertObjectChart');
 		cy.cGet('#insertobjectchart').click();
+		helper.checkDispatchedMsg('uno .uno:InsertObjectChart');
+
+		helper.setReceiveMsg('graphicselection:');
 		cy.cGet('.jsdialog-overlay').click();
 		cy.cGet('.ui-pushbutton.jsdialog.button-primary').should($el => { expect(Cypress.dom.isDetached($el)).to.eq(false); }).click();
+		helper.checkReceivedMsg('graphicselection:');
 		cy.cGet('#test-div-shapeHandlesSection').should('exist');
+
+		cy.wait(500);
 		//delete
+		helper.setReceiveMsg('graphicselection:');
 		helper.typeIntoDocument('{del}');
+		helper.checkReceivedMsg('graphicselection:');
 		cy.cGet('#test-div-shapeHandlesSection').should('not.exist');
 	});
 });
