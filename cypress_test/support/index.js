@@ -57,7 +57,7 @@ if (Cypress.env('INTEGRATION') === 'nextcloud') {
 	});
 }
 
-Cypress.on('fail', function(error) {
+Cypress.on('fail', function(error, runnable) {
 	var message = '\n';
 	message += 'Test failed: ' + getFullTestName() + '\n';
 	message += '\n';
@@ -68,6 +68,13 @@ Cypress.on('fail', function(error) {
 		message += error.codeFrame.frame;
 	}
 	Cypress.log({name: 'fail:', message: message});
+
+	if (Cypress.config('logServerResponse') || Cypress.config('logClientSend')) {
+		const filePath = `failed-tests-html/${runnable.title.replace(/[^a-zA-Z0-9]/g, '_')}_failure${Cypress.currentRetry}.html`;
+		Cypress.log({name: 'dump html', message: `check file ${filePath}`});
+		const cloneHtml = Cypress.$('#coolframe').contents().find('html').get(0).cloneNode(true);
+		cy.writeFile(filePath + '.html', Cypress.$(cloneHtml).html());
+	}
 
 	throw error;
 });
