@@ -1,3 +1,4 @@
+/* -*- js-indent-level: 8 -*- */
 /* global describe it cy beforeEach expect require */
 
 var helper = require('../../common/helper');
@@ -78,6 +79,7 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Scroll through document', 
 		cy.cGet(helper.addressInputSelector).should('have.value', 'A2');
 
 		// Click on the bottom left cell and hold
+		helper.setReceiveMsg('cellselectionarea:');
 		cy.cGet('#document-container')
 			.then(function (items) {
 				expect(items).to.have.lengthOf(1);
@@ -91,6 +93,7 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Scroll through document', 
 		// Wait for autoscroll and lift the button
 		cy.wait(500);
 		cy.cGet('#document-container').realMouseUp({ pointer: 'mouse', button: 'left' });
+		helper.checkReceivedMsg('cellselectionarea:');
 
 		// Without the fix, the selected range is of the form A17:A22, instead of A17:D22
 		// It's better not to check the exact range because it can easily change in different executions
