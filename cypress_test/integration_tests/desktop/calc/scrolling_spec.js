@@ -97,6 +97,10 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Scroll through document', 
 
 		// Without the fix, the selected range is of the form A17:A22, instead of A17:D22
 		// It's better not to check the exact range because it can easily change in different executions
+		cy.cGet(helper.addressInputSelector).invoke('val')
+			.then(function(inputValue) {
+				cy.log(`The current input value is: ${inputValue}`);
+			});
 		cy.cGet(helper.addressInputSelector).invoke('val').should('contain', 'D');
 	});
 });
