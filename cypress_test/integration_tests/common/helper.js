@@ -223,6 +223,50 @@ function loadDocumentNoIntegration(filePath, isMultiUser) {
 						Cypress.log({name: 'stubLog =>', message: e});
 					});
 			});
+
+		if (Cypress.config('logServerResponse') || Cypress.config('logClientSend')) {
+			cy.getFrameWindow().then(function(win) {
+				win._bufferLogs = [];
+				let methods = ['error', 'warn', 'info',
+					       'debug', 'log', 'assert'];
+				let types = ['string', 'number', 'undefined',
+					     'null', 'boolean', 'function'];
+				let oldConsole = {};
+
+				let argToString = function(arg) {
+					if (types.includes(typeof arg)) {
+						return arg.toString();
+					}
+
+					if (arg instanceof Error &&
+					    typeof arg.stack === 'string') {
+						let stack = arg.stack;
+						if (stack.indexOf(arg.message) !== -1) {
+							stack = stack.slice(stack.indexOf(arg.message) + arg.message.length + 1);
+						}
+						return arg.toString() + '\n' + stack;
+					}
+
+					let json;
+					try {
+						json = JSON.stringify(arg, false, '\t');
+					} catch (e) {
+						json = 'error ' + e;
+					}
+					return json;
+				};
+
+				for (var i in methods) {
+					oldConsole[methods[i]] = win.console[methods[i]];
+					win.console[methods[i]] = function() {
+						let args = Array.prototype.slice.call(arguments);
+						let value = args.map(argToString).join(`,\n`);
+						win._bufferLogs.push(value);
+						oldConsole[methods[i]].apply(args);
+					};
+				}
+			});
+		}
 	});
 
 	cy.log('<< loadDocumentNoIntegration - end');

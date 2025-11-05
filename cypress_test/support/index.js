@@ -53,7 +53,6 @@ if (Cypress.env('INTEGRATION') === 'nextcloud') {
 				      message: (event.error.message ? event.error.message : 'no message')
 				      + '\n' + (event.error.stack ? event.error.stack : 'no stack') });
 		});
-
 	});
 }
 
@@ -70,10 +69,16 @@ Cypress.on('fail', function(error, runnable) {
 	Cypress.log({name: 'fail:', message: message});
 
 	if (Cypress.config('logServerResponse') || Cypress.config('logClientSend')) {
-		const filePath = `failed-tests-html/${runnable.title.replace(/[^a-zA-Z0-9]/g, '_')}_failure${Cypress.currentRetry}.html`;
-		Cypress.log({name: 'dump html', message: `check file ${filePath}`});
-		const cloneHtml = Cypress.$('#coolframe').contents().find('html').get(0).cloneNode(true);
-		cy.writeFile(filePath + '.html', Cypress.$(cloneHtml).html());
+		const filePath = `failed-tests/${runnable.title.replace(/[^a-zA-Z0-9]/g, '_')}_failure${Cypress.currentRetry}`;
+		const coolFrame = Cypress.$('#coolframe');
+		if (coolFrame.length) {
+			const cloneHtml = coolFrame.contents().find('html').get(0).cloneNode(true);
+			Cypress.log({name: 'dump html =>', message: `${filePath}.html`});
+			cy.writeFile(filePath + '.html', Cypress.$(cloneHtml).html());
+			Cypress.log({name: 'dump console logs =>', message: `${filePath}.txt`});
+			cy.writeFile(filePath + '.txt', coolFrame[0].contentWindow._bufferLogs);
+			coolFrame[0].contentWindow._bufferLogs = [];
+		}
 	}
 
 	throw error;
