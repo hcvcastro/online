@@ -1,3 +1,4 @@
+/* -*- js-indent-level: 8 -*- */
 /* global cy require expect Cypress */
 
 var helper = require('./helper');
@@ -67,12 +68,17 @@ function assertNumberOfSlidePreviews(slides) {
 // Trigger mouse click on center of the screen
 // Does no checking as to what is or isn't found there
 function clickCenterOfSlide(modifiers) {
+	helper.setReceiveMsg('graphicselection:');
 	cy.cGet('#document-container')
 		.then(function(items) {
 			expect(items).to.have.length(1);
 			var XPos = (items[0].getBoundingClientRect().left + items[0].getBoundingClientRect().right) / 2;
 			var YPos = (items[0].getBoundingClientRect().top + items[0].getBoundingClientRect().bottom) / 2;
+			helper.setDispatchMsg('mouse type=buttonup');
 			cy.cGet('body').click(XPos, YPos, modifiers);
+			helper.checkDispatchedMsg('mouse type=buttonup');
+		}).then(function() {
+			helper.checkReceivedMsg('graphicselection:');
 		});
 }
 
@@ -82,10 +88,8 @@ function clickCenterOfSlide(modifiers) {
 function selectTextShapeInTheCenter() {
 	cy.log('>> selectTextShapeInTheCenter - start');
 
-	helper.setReceiveMsg('graphicselection:');
 	// Click on the center of the slide to select the text shape there
 	clickCenterOfSlide( { } );
-	helper.checkReceivedMsg('graphicselection:');
 
 	cy.cGet('#test-div-shape-handle-rotation').should('exist');
 	cy.cGet('#document-container svg g.Page g').should('exist');
@@ -123,11 +127,12 @@ function removeShapeSelection() {
 	// Remove selection with clicking on the top-left corner of the slide
 	cy.cGet('.leaflet-canvas-container canvas')
 		.then(function(items) {
-			var XPos = items[0].getBoundingClientRect().left + 10;
-			var YPos = items[0].getBoundingClientRect().top + 10;
-			cy.cGet('body').click(XPos, YPos);
+			helper.setDispatchMsg('key type=up');
 			cy.cGet('body').type('{esc}');
+			helper.checkDispatchedMsg('key type=up');
+			helper.setDispatchMsg('key type=up');
 			cy.cGet('body').type('{esc}');
+			helper.checkDispatchedMsg('key type=up');
 		});
 
 	cy.cGet('#document-container')
@@ -147,6 +152,8 @@ function removeShapeSelection() {
 // so we can be sure that it's in an updated state.
 function triggerNewSVGForShapeInTheCenter() {
 	cy.log('>> triggerNewSVGForShapeInTheCenter - start');
+
+	helper.closeAllDialogs();
 
 	removeShapeSelection();
 
@@ -171,7 +178,9 @@ function selectTextOfShape() {
 	// Retry until the cursor appears and the text is selected
 	cy.waitUntil(function() {
 		dblclickOnSelectedShape();
+		helper.setReceiveMsg('textselection:');
 		helper.typeIntoDocument('{ctrl}a');
+		helper.checkReceivedMsg('textselection:');
 		return cy.cGet('.text-selection-handle-start, .text-selection-handle-end').should('exist');
 	});
 

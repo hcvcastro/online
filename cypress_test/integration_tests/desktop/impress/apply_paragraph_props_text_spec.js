@@ -1,3 +1,4 @@
+/* -*- js-indent-level: 8 -*- */
 /* global describe it cy beforeEach require */
 
 var helper = require('../../common/helper');
@@ -68,7 +69,9 @@ describe(['tagdesktop', 'tagnextcloud', 'tagproxy'], 'Apply paragraph properties
 		cy.cGet('#toolbar-up #overflow-button-other-toptoolbar .arrowbackground').click();
 
 		// Apply bulleting
+		helper.setReceiveMsg('textselection:');
 		cy.cGet('#defaultbullet').click();
+		helper.checkReceivedMsg('textselection:');
 
 		selectText();
 		cy.cGet('#document-container g.Page .BulletChars')
