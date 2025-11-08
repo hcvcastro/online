@@ -66,6 +66,11 @@ Cypress.on('fail', function(error, runnable) {
 		message += error.codeFrame.absoluteFile + ':' + error.codeFrame.line + ':' + error.codeFrame.column + '\n';
 		message += error.codeFrame.frame;
 	}
+
+	if (error.stack) {
+		message += error.stack;
+	}
+
 	Cypress.log({name: 'fail:', message: message});
 
 	if (Cypress.config('logServerResponse') || Cypress.config('logClientSend')) {
