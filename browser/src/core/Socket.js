@@ -342,7 +342,6 @@ app.definitions.Socket = class Socket extends SocketBase {
 						// If we're cypress testing, fail the run. Cypress will fail anyway, but this way we may get
 						// a nice error in the logs rather than guessing that the run failed from our popup blocking input...
 						if (window.L.Browser.cypressTest && window.parent !== window && e !== null) {
-							console.log("Sending event error to Cypress...", e);
 							window.parent.postMessage(e);
 						}
 
@@ -1487,6 +1486,10 @@ app.definitions.Socket = class Socket extends SocketBase {
 				// unpleasant - but stops this one problem
 				// event stopping an unknown number of others.
 				window.app.console.error('Exception ' + e + ' emitting event ' + message, e.stack);
+
+				if (window.L.Browser.cypressTest && window.parent !== window && e !== null) {
+					window.parent.postMessage(e);
+				}
 			}
 		}
 

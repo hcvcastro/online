@@ -637,7 +637,6 @@ function getInitializerClass() {
 				global.logServer(log);
 
 				if (L.Browser.cypressTest && window.parent !== window && err !== null) {
-					console.log("Sending global error to Cypress...:", err);
 					window.parent.postMessage(err);
 				}
 
